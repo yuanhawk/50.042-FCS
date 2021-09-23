@@ -2,7 +2,7 @@
 # sudo apt install imagemagick to run code
 
 counter = 0
-echo 'Please install imagemagick to check image'
+echo 'Please install imagemagick to check image: sudo apt install imagemagick'
 if [ ! -d "./img" ]; then
 	mkdir img
 fi
