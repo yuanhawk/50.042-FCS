@@ -3,7 +3,6 @@ import string
 import random as r
 import time as t
 import hashlib as h
-import daemon
 from ex2 import *
 
 def read_hash_file(filein):
