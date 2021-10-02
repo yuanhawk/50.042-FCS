@@ -28,7 +28,7 @@ def rev_hash_output(filein, fileout):
 
     str_list_output = []
     while len(hash_list) > 0:
-        rand_str = str_generator()
+        rand_str = str(str_generator())
         rand_hash = gen_hash(rand_str)
         if rand_hash in hash_list:
             rand_str_dict[rand_hash] = rand_str
@@ -66,7 +66,6 @@ if __name__ == "__main__":
             print(f"{rand_str} is {rand_hash}")
             str_list_output.append(rand_str)
             hash_list.remove(rand_hash)
-            print(str_list_output)
             print('Remaining length: ', len(hash_list))
 
     time_taken = t.perf_counter() - time_start
