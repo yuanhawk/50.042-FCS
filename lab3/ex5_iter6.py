@@ -90,6 +90,8 @@ def generate_brute_force(length):
 if __name__ == "__main__":
     time_start = t.perf_counter()
 
+    rand_str_dict = dict()
+
     hash_list = read_hash_file('hashes.txt')
     size = len(hash_list)
 
