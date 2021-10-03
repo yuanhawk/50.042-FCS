@@ -10,7 +10,7 @@ time_start = None
 # Current guess from generate() function
 current_guess = ""
 
-characters = string.printable
+characters = string.ascii_letters + string.digits + '.' + ' '
 
 # Indexes for each character)
 digits = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
@@ -28,7 +28,7 @@ def read_hash_file(filein):
     return hash_list
 
 def parse_data_to_csv(data):
-    with open('ex5_epic.csv', 'a') as myfile:
+    with open('ex5.csv', 'a') as myfile:
         wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
         wr.writerow(data)
 
@@ -90,16 +90,9 @@ def generate_brute_force(length):
 if __name__ == "__main__":
     time_start = t.perf_counter()
 
-    rand_str_dict = dict()
     hash_list = read_hash_file('hashes.txt')
     size = len(hash_list)
 
-    for words in read_json().values():
-        for word in words:
-            check_hash_collision(word)
-    
-    i = 1
-    while len(hash_list) > 0:
-        for _ in range(pow(len(characters), i)):
-            generate_brute_force(i)
-        i += 1
+    i = 6
+    for _ in range(pow(len(characters), i)):
+        generate_brute_force(i)
