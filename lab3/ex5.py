@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 import string
 import random as r
 import time as t
@@ -10,27 +11,42 @@ time_start = None
 # Current guess from generate() function
 current_guess = ""
 
-characters = string.ascii_letters + string.digits + '.' + ' '
+hash_list = []
+
+characters = string.ascii_letters + string.digits + '-'
 
 # Indexes for each character)
-digits = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
+digits = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0}
+
 
 def read_json():
     with open("words.txt") as word_holder:
         return json.load(word_holder)[0]
 
+
 def read_hash_file(filein):
-    hash_list = []
+    global hash_list
     with open(filein, mode="r", encoding="utf-8", newline="\n") as fin:
         for l in fin.readlines():
             if len(l) == 34:
                 hash_list.append(l.strip())
-    return hash_list
+
+def read_csv_to_data(filename):
+    if not os.path.isfile(filename):
+        open(filename, 'w').close()
+    else:
+        with open(filename, 'r') as myFile:
+            csv_file = csv.reader(myFile)
+            for line in csv_file:
+                rand_str_dict[line[0]] = line[1]
+            print(rand_str_dict)
+
 
 def parse_data_to_csv(data):
     with open('ex5.csv', 'a') as myfile:
         wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
         wr.writerow(data)
+
 
 def check_hash_collision(rand_str):
     global time_taken
@@ -43,6 +59,7 @@ def check_hash_collision(rand_str):
         print('Time taken: ', t.perf_counter() - time_start)
         time_taken = t.perf_counter()
         parse_data_to_csv([rand_hash, rand_str])
+
 
 # Create a brute-force password guess using the values from digits array
 def generate_brute_force(length):
@@ -58,7 +75,7 @@ def generate_brute_force(length):
     while char_count < length:
         char_count += 1
         current_guess += characters[digits[char_count]]
-        check_hash_collision(current_guess)
+    check_hash_collision(current_guess)
 
     # Incerement the relative key in the index array for next run
     digits_modded = False
@@ -91,15 +108,18 @@ if __name__ == "__main__":
     time_start = t.perf_counter()
 
     rand_str_dict = dict()
-    hash_list = read_hash_file('hashes.txt')
+    read_csv_to_data('ex5.csv')
+    read_hash_file('hashes.txt')
     size = len(hash_list)
 
     for words in read_json().values():
         for word in words:
             check_hash_collision(word)
-    
+
     i = 1
-    while len(hash_list) > 0:
+    while i < 6:
+        print(f'Brute forcing length: {i}')
         for _ in range(pow(len(characters), i)):
             generate_brute_force(i)
+        print(f'Completed brute force: {i}')
         i += 1
