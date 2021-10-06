@@ -3,6 +3,8 @@ import csv
 import gzip
 from ex2 import *
 
+rand_str_dict = {}
+
 def unzip_file(filein):
     with gzip.open(filein, mode="rt", encoding="utf-8", newline="\n", errors="ignore") as fin:
         for word in fin:
@@ -12,10 +14,12 @@ def read_hash_file(filein):
     global hash_list
     with open(filein, mode="r", encoding="utf-8", newline="\n") as fin:
         for l in fin.readlines():
-            if len(l) == 34:
+            if len(l) == 34 and l.strip() not in rand_str_dict.keys():
                 hash_list.append(l.strip())
+    print('Remaining length: ', len(hash_list))
 
 def read_csv_to_data(filename):
+    global rand_str_dict
     if not os.path.isfile(filename):
         open(filename, 'w').close()
     else:
@@ -51,4 +55,12 @@ if __name__ == "__main__":
     read_hash_file('hashes.txt')
     size = len(hash_list)
 
-    unzip_file('crackstation.txt.gz')
+    # unzip_file('crackstation.txt.gz')
+
+    dir = 'db'
+    for file in os.listdir(dir):
+        filename = os.fsdecode(file)
+        if filename.endswith(".txt"):
+            with open(f'{dir}/{filename}', mode="r", encoding="utf-8", newline="\n", errors='ignore') as fin:
+                for l in fin.readlines():
+                    check_hash_collision(l.strip())
