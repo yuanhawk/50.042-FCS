@@ -57,10 +57,14 @@ if __name__ == "__main__":
 
     # unzip_file('crackstation.txt.gz')
 
-    dir = 'db'
-    for file in os.listdir(dir):
-        filename = os.fsdecode(file)
-        if filename.endswith(".txt"):
-            with open(f'{dir}/{filename}', mode="r", encoding="utf-8", newline="\n", errors='ignore') as fin:
-                for l in fin.readlines():
-                    check_hash_collision(l.strip())
+    with open('test.txt', mode="r", encoding="utf-8", newline="\n", errors='ignore') as fin:
+        for l in fin.readlines():
+            check_hash_collision(l.strip())
+
+    # dir = 'db'
+    # for file in os.listdir(dir):
+    #     filename = os.fsdecode(file)
+    #     if filename.endswith(".txt"):
+    #         with open(f'{dir}/{filename}', mode="r", encoding="utf-8", newline="\n", errors='ignore') as fin:
+    #             for l in fin.readlines():
+    #                 check_hash_collision(l.strip())
