@@ -66,21 +66,12 @@ def genRoundKeys(key):
         # rotate right of 61 bits
         sushi = pad_binary(ror(new_key, 19, 80), 80)
 
-        # print(sushi)
-
         #sbox on k79-76
         slayer = sLayer(sushi)
-        # print(slayer)
 
         #^ round counter
         new_key = int(xLayer(i, slayer), 2)
-        # for i in range(32):
-        #     addRoundKey()
     return keys_dict
-
-    # for i in range(len(sushi) - 1, -1, -1):
-    #     print(sushi[i])
-    # return ror(key, 19, 80)
 
 
 def addRoundKey(state, Ki):
@@ -88,27 +79,9 @@ def addRoundKey(state, Ki):
 
 
 def sLayer(sushi):
-    sushi_list = []
-    # sushi_list[:0] = sushi
-    # while len(sushi_list) < 82:
-    #     sushi_list.insert(2, '0')
     sushi = pad_binary(int(sushi, 2), 80)
-
-    # print(sushi)
-    # subst_list = []
     hexa = sub('e', 'sbox', hex(int(sushi[:4], 2)))
     b = pad_binary(int(hexa, 16), 4) + sushi[4:]
-    # for i in range(2, len(sushi_list), 4):
-    #     # convert to hexa
-    #     hexa = hex(int(''.join(sushi_list[i: i + 4]), 2))
-    #     if i == 2:
-    #         h = sub('e', 'sbox', hexa)
-    #         bin_val = list(bin(int(h, 16)))
-    #     else:
-    #         bin_val = list(bin(int(hexa, 16)))
-    #     while len(bin_val) < 6:
-    #         bin_val.insert(2, '0')
-    #     b += ''.join(bin_val[2:])
     return b
 
 
@@ -124,11 +97,6 @@ def xLayer(lsb, slayer):
     xlayer = slayer[:60]
     xlayer += str(pad_binary((int(sl, 2) ^ lsb), 5))
     xlayer += slayer[65:]
-    # print(len(xlayer))
-    # for i in range(len(slayer)):
-    #     if i in range(62, 67):
-    #         print(slayer[i], lsb)
-    #         slayer[i] = str(int(slayer[i]) ^ lsb)
     return xlayer
 
 
