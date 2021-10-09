@@ -1,22 +1,11 @@
 #!/usr/bin/env python3
-#https://www.emsec.ruhr-uni-bochum.de/media/crypto/veroeffentlichungen/2011/01/29/present_ches2007_slides.pdf
 
 # Present skeleton file for 50.042 FCS
-from functions.fun import sub
+from functions.fun import fun
+from collections import OrderedDict
 
 # constants
 FULLROUND = 31
-
-# S-Box Layer
-sbox = [0xC, 0x5, 0x6, 0xB, 0x9, 0x0, 0xA, 0xD,
-        0x3, 0xE, 0xF, 0x8, 0x4, 0x7, 0x1, 0x2]
-
-# PLayer
-pmt = [0, 16, 32, 48, 1, 17, 33, 49, 2, 18, 34, 50, 3, 19, 35, 51,
-       4, 20, 36, 52, 5, 21, 37, 53, 6, 22, 38, 54, 7, 23, 39, 55,
-       8, 24, 40, 56, 9, 25, 41, 57, 10, 26, 42, 58, 11, 27, 43, 59,
-       12, 28, 44, 60, 13, 29, 45, 61, 14, 30, 46, 62, 15, 31, 47, 63]
-
 
 # Rotate left: 0b1001 --> 0b0011
 
@@ -32,83 +21,118 @@ def ror(val, r_bits, max_bits): return \
     ((val & (2 ** max_bits - 1)) >> r_bits % max_bits) | \
     (val << (max_bits - (r_bits % max_bits)) & (2 ** max_bits - 1))
 
+
 def get_hex_wo_0x(hex_int):
     return hex(hex_int[2:])
+
+def get_hex_from_str(hex_string):
+    return int(hex_string, 16)
 
 def get_hex_int(hex_string):
     print(f"For hexadecimal {hex_string}, int is:", int(hex_string, 16))
     return int(hex_string, 16)
 
+
 def get_bin_wo_0b(bin_int):
     return bin(bin_int[2:])
+
 
 def get_bin_int(bin_string):
     print(f"For binary {bin_string}, int is:", int(bin_string, 2))
     return int(bin_string, 2)
 
+def pad_hex(hexa, padding):
+    return hex(hexa)[2:].zfill(padding)
+
 def pad_binary(binary, padding):
-    #e.g.0b100 -> 0b00100  pad_binary(Ob100,2)
+    # e.g.0b100 -> 0b00100  pad_binary(Ob100,2)
     return bin(binary)[2:].zfill(padding)
-
-
-
-def get_lsb(i):
-    return 0 if i == 1 else 1
 
 
 def genRoundKeys(key):
     keys_dict = {0: 32}
 
     new_key = key
-    for i in range(1, 33):
+
+    for i in range(1, FULLROUND + 2):
         keys_dict[i] = new_key >> 16
 
         # rotate right of 61 bits
         sushi = pad_binary(ror(new_key, 19, 80), 80)
 
-        #sbox on k79-76
-        slayer = sLayer(sushi)
+        # sbox on k79-76
+        slayer = sKeyLayer(sushi)
 
-        #^ round counter
+        # ^ round counter
         new_key = int(xLayer(i, slayer), 2)
     return keys_dict
+
+
+def sKeyLayer(sushi):
+    hexa = fun('e', 'sbox', hex(int(sushi[:4], 2)))
+    b = pad_binary(int(hexa, 16), 4) + sushi[4:]
+    return b
+
+
+def xLayer(lsb, slayer):
+    xlayer = slayer[:60]
+    xlayer += str(pad_binary(addRoundKey(int(slayer[60:65], 2), lsb), 5))
+    xlayer += slayer[65:]
+    return xlayer
 
 
 def addRoundKey(state, Ki):
     return state ^ Ki
 
+# 64 bits -> 4 bits per space
+def sBoxLayer(state, bits):
+    #1 hexa char is 4 bits
+    state = pad_hex(state, int(bits/4))
+    state_op = ''
+    for i in state:
+        index = fun('e', 'sbox', '0x' + i)
+        state_op += (index[2])
 
-def sLayer(sushi):
-    sushi = pad_binary(int(sushi, 2), 80)
-    hexa = sub('e', 'sbox', hex(int(sushi[:4], 2)))
-    b = pad_binary(int(hexa, 16), 4) + sushi[4:]
-    return b
+    return bin(int(hex(get_hex_int(state_op)), 16))
 
 
-def sBoxLayer_inv(sushi_list):
-    subst_list = []
-    for i in range(2, len(sushi_list), 4):
-        pass
+# TODO: Finish
+def sBoxLayer_inv(state, bits):
     pass
 
-def xLayer(lsb, slayer):
-    sl = slayer[60:65]
 
-    xlayer = slayer[:60]
-    xlayer += str(pad_binary((int(sl, 2) ^ lsb), 5))
-    xlayer += slayer[65:]
-    return xlayer
+# def sBoxLayer_inv(sushi_list):
+#     subst_list = []
+#     for i in range(2, len(sushi_list), 4):
+#         pass
+#     pass
 
 
 def pLayer(state):
-    pass
+    state_dict = {}
+    new_state = list(pad_binary(int(state, 2), 64))
+    for idx, val in enumerate(new_state):
+        state_dict[fun('e', 'pmt', idx)] = val
+
+    out = ''
+    for v in OrderedDict(sorted(state_dict.items())).values():
+        out += v
+    return int(out, 2)
 
 
 def present_round(state, roundKey):
-    return state
+    # new_state = sBoxLayer(state, roundKey)
+
+    new_state = addRoundKey(state, roundKey)
+    new_state = sBoxLayer(new_state, 64)
+    new_state = pLayer(new_state)
+
+    # state = sKeyLayer()
+    return new_state
 
 
 def present_inv_round(state, roundKey):
+    new_state = addRoundKey(state, roundKey)
     return state
 
 

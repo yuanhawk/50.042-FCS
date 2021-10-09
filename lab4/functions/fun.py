@@ -1,7 +1,8 @@
 from constants.pmt import pmt
 from constants.sbox import sbox
 
-def sub(de, mode, m):
+#takes in 64 bits
+def fun(de, mode, m):
     if de == 'e':
         if mode == 'sbox':
             for k, v in sbox.items():
