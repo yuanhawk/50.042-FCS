@@ -29,7 +29,6 @@ def get_hex_from_str(hex_string):
     return int(hex_string, 16)
 
 def get_hex_int(hex_string):
-    print(f"For hexadecimal {hex_string}, int is:", int(hex_string, 16))
     return int(hex_string, 16)
 
 
@@ -38,7 +37,6 @@ def get_bin_wo_0b(bin_int):
 
 
 def get_bin_int(bin_string):
-    print(f"For binary {bin_string}, int is:", int(bin_string, 2))
     return int(bin_string, 2)
 
 def pad_hex(hexa, padding):
@@ -85,34 +83,23 @@ def addRoundKey(state, Ki):
     return state ^ Ki
 
 # 64 bits -> 4 bits per space
-def sBoxLayer(state, bits):
+def sBoxLayer(state, mode, bits):
     #1 hexa char is 4 bits
     state = pad_hex(state, int(bits/4))
     state_op = ''
+
     for i in state:
-        index = fun('e', 'sbox', '0x' + i)
+        index = fun(mode, 'sbox', '0x' + i)
         state_op += (index[2])
 
-    return bin(int(hex(get_hex_int(state_op)), 16))
+    return int(hex(get_hex_int(state_op)), 16)
 
 
-# TODO: Finish
-def sBoxLayer_inv(state, bits):
-    pass
-
-
-# def sBoxLayer_inv(sushi_list):
-#     subst_list = []
-#     for i in range(2, len(sushi_list), 4):
-#         pass
-#     pass
-
-
-def pLayer(state):
+def pLayer(state, mode):
     state_dict = {}
-    new_state = list(pad_binary(int(state, 2), 64))
+    new_state = list(pad_binary(state, 64))
     for idx, val in enumerate(new_state):
-        state_dict[fun('e', 'pmt', idx)] = val
+        state_dict[fun(mode, 'pmt', idx)] = val
 
     out = ''
     for v in OrderedDict(sorted(state_dict.items())).values():
@@ -121,19 +108,17 @@ def pLayer(state):
 
 
 def present_round(state, roundKey):
-    # new_state = sBoxLayer(state, roundKey)
-
     new_state = addRoundKey(state, roundKey)
-    new_state = sBoxLayer(new_state, 64)
-    new_state = pLayer(new_state)
-
-    # state = sKeyLayer()
+    new_state = sBoxLayer(new_state, 'e', 64)
+    new_state = pLayer(new_state, 'e')
     return new_state
 
 
 def present_inv_round(state, roundKey):
-    new_state = addRoundKey(state, roundKey)
-    return state
+    new_state = pLayer(state, 'd')
+    new_state = sBoxLayer(new_state, 'd', 64)
+    new_state = addRoundKey(new_state, roundKey)
+    return new_state
 
 
 def present(plain, key):
