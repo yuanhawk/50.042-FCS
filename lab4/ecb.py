@@ -80,8 +80,6 @@ def read_input(filein, fileout, filekey, mode):
 
                     #reference to last block which is padded
                     if i == len(fin_hex) // 8 - 1:
-                        print(len(i))
-                        print(block_byte)
                         block_byte = block_byte.rstrip(b'0')
                     encrypted_byte += block_byte
 
