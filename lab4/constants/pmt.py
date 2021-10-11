@@ -1,3 +1,6 @@
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
+
 pmt = {
     0: 0,
     1: 16,

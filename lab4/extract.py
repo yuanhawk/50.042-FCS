@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # ECB plaintext extraction skeleton file for 50.042 FCS
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
 
 import argparse
 

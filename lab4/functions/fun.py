@@ -1,3 +1,6 @@
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
+
 from constants.pmt import pmt
 from constants.sbox import sbox
 

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 # Present skeleton file for 50.042 FCS
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
+
 from functions.fun import fun
 from collections import OrderedDict
 

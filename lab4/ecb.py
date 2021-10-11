@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 # ECB wrapper skeleton file for 50.042 FCS
-import sys
-import math
-from present import *
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
+
 import argparse
+import math
+
+from present import *
 
 nokeybits = 80
 blocksize = 64

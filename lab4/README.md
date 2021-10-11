@@ -12,8 +12,8 @@
   - [Submission](#submission)
     - [eDimension Submission](#edimension-submission)
 
-**Submission**
-Hi Timothy, I have written some bash script to auto-gen the image, feel free to use it:
+**Submission**<br>
+Hi Timothy, I have written some bash script to auto-gen the image, feel free to use it:<br>
 ```./ecb.sh```
 ```./header.sh```
 
