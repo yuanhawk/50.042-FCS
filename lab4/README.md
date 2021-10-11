@@ -12,6 +12,11 @@
   - [Submission](#submission)
     - [eDimension Submission](#edimension-submission)
 
+**Submission**
+Hi Timothy, I have written some bash script to auto-gen the image, feel free to use it:
+```./ecb.sh```
+```./header.sh```
+
 ## Objectives
 
 * Implement the ultra-lightweight PRESENT block cipher

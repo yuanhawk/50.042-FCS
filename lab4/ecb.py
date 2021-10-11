@@ -8,32 +8,14 @@ import argparse
 nokeybits = 80
 blocksize = 64
 
-def split_by_blocksize(string, size):
-    blocks = []
-    # unpadblocks = []
-    for i in range(0, len(string), size):
-        blocks.append(pad(string[0+i:size+i]))
-    # for b in blocks:
-    #     unpadblocks.append(unpad(b).encode('ascii'))
-    # print(unpadblocks)
-    return blocks
-
-BS = 64
-
 def pad(block):
-    elen = len(block) % BS
+    elen = len(block) % blocksize
     if elen:
-        block += bytes(BS - elen)
+        block += bytes(blocksize - elen)
     return block
 
 def unpad(s):
     return s.decode('ascii').strip().strip('\x00')
-
-# def bytes_to_int(bytes):
-#     result = int.from_bytes(bytes, "big")
-#     print(result)
-#     print(type(result))
-#     return result
 
 def get_bin_from_bytes(bytes):
     block_binary = ''
@@ -48,9 +30,8 @@ def get_bytes_from_bin(binary):
 
 def read_input(filein, fileout, filekey, mode):
 
-    key = 0xFFFFFFFFFFFFFFFFFFFF
-    # with open(filekey, mode='r') as fin:
-    #     key = get_hex_int(fin.read())
+    with open(filekey, mode='r') as fin:
+        key = get_hex_int(fin.read())
 
     with open(filein, mode="rb") as fin:
         with open(fileout, mode='wb') as fout:
@@ -85,15 +66,6 @@ def read_input(filein, fileout, filekey, mode):
 
 
             fout.write(encrypted_byte)
-
-
-
-
-def ecb(infile, outfile, key, mode):
-    pass
-
-
-
 
 
 if __name__ == "__main__":
