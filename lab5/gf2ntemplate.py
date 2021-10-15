@@ -58,12 +58,12 @@ class Polynomial2:
         # print(max)
         if self.len <= p2.len:
             idx = self.len
-            print('idx of self: ', str(idx))
+            # print('idx of self: ', str(idx))
             s_arr = self.coeff
             l_arr = p2.coeff
         else:
             idx = p2.len
-            print('idx of p2: ', str(idx))
+            # print('idx of p2: ', str(idx))
             l_arr = self.coeff
             s_arr = p2.coeff
 
@@ -83,11 +83,13 @@ class Polynomial2:
 
         self.coeff = new_output
         q, r = self.div(modp)
+        self.coeff = r
+
         return Polynomial2(r)
 
 
     def div(self, p2):
-        q = []
+        q = r = []
         for i in range(len(self.coeff) - 1, -1, -1):
             if self.coeff[i] == 1 and i >= p2.len - 1:
                 q.append(1)
@@ -108,8 +110,12 @@ class Polynomial2:
                     p.append('1')
         return '+'.join(p)
 
-    def getInt(p):
-        pass
+    def getInt(self):
+        op = ''
+        for i in range(self.len - 1, -1, -1):
+            op += str(self.coeff[i])
+        return int(op, 2)
+
 
 
 class GF2N:
@@ -123,22 +129,34 @@ class GF2N:
                [0,0,0,1,1,1,1,1]]
 
     def __init__(self,x,n=8,ip=Polynomial2([1,1,0,1,1,0,0,0,1])):
-        pass
-
+        self.x = bin(x)
+        print(self.x)
+        self.coeff = []
+        for i in range(len(self.x) - 1, 1, -1):
+            self.coeff.append(int(self.x[i]))
+        self.poly = Polynomial2(self.coeff)
+        self.n = n
+        self.ip = ip
 
     def add(self,g2):
-        pass
+        return self.poly.add(g2.poly)
+
     def sub(self,g2):
         pass
     
     def mul(self,g2):
-        pass
+        return self.poly.mul(g2.getPolynomial2(), self.ip)
+
 
     def div(self,g2):
-        pass
+        q, r = self.poly.div(g2.getPolynomial2())
+        q = Polynomial2(q)
+        r = Polynomial2(r)
+
+        return GF2N(q.getInt(), self.n, self.ip), GF2N(r.getInt(), self.n, self.ip)
 
     def getPolynomial2(self):
-        pass
+        return self.poly
 
     def __str__(self):
         pass
@@ -146,7 +164,25 @@ class GF2N:
     def getInt(self):
         pass
 
+    # at = 1 mod n
     def mulInv(self):
+        t = 0
+        newt = 1
+        # r = n
+        newr = 5 #a
+
+        while newr != 0:
+            quotient = r // newr
+            t, newt = newt, t - quotient * newt
+            r, newr = newr, r - quotient * newr
+
+        if r > 1:
+            return "a is not invertible"
+
+        if t < 0:
+            t = t + n
+
+        return t
         pass
 
     def affineMap(self):
@@ -204,7 +240,7 @@ g5=GF2N(0b110,4,ip)
 print('g4 = ',g4.getPolynomial2())
 print('g5 = ',g5.getPolynomial2())
 g6=g4.mul(g5)
-print('g4 x g5 = ',g6.p)
+print('g4 x g5 = ',g6)
 
 print('\nTest 6')
 print('======')
