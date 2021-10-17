@@ -82,10 +82,11 @@ class Polynomial2:
                 new_output.append(self.mod(i))
 
         self.coeff = new_output
-        if len(new_output) >= modp.len:
-            q, r = self.div(modp)
-            self.coeff = r
-            return r
+        if modp:
+            if len(new_output) >= modp.len:
+                q, r = self.div(modp)
+                self.coeff = r
+                return r
 
         return Polynomial2(new_output)
 
@@ -97,6 +98,11 @@ class Polynomial2:
                 r = self.sub_range(p2, start=i, end=i - len(p2.coeff))
             else:
                 q.append(0)
+
+        for i in range(len(self.coeff) - 1, -1, -1):
+            if r[i] != 0:
+                break
+            r.pop()
 
         return Polynomial2(q), Polynomial2(r)
 
@@ -128,6 +134,7 @@ class GF2N:
                  [0, 1, 1, 1, 1, 1, 0, 0],
                  [0, 0, 1, 1, 1, 1, 1, 0],
                  [0, 0, 0, 1, 1, 1, 1, 1]]
+    modt = [1, 1, 0, 0, 0, 1, 1, 0]
 
     def __init__(self, x, n=8, ip=Polynomial2([1, 1, 0, 1, 1, 0, 0, 0, 1])):
         self.x = bin(x)
@@ -175,33 +182,30 @@ class GF2N:
         # print(self.ip, ' = 10011')
 
         q1, r1 = self.ip.div(self.poly)
-        print(q1, r1)
 
         q2, r2 = self.poly.div(r1)
-        print(q2, r2)
 
-        q1q2 = q1.mul(q2)
+        q1q2 = Polynomial2(q1.coeff).mul(Polynomial2(q2.coeff))
         q_x = q1q2.add(Polynomial2([1]))
 
         return GF2N(q_x.getInt(), self.n, self.ip)
 
     def pad_list(self, ai, pad):
-        pass
-        # print("Pad: " + str(pad))
-        # print("Pad list coeff: " + str(ai))
-        # for i in range(len(ai)):
-        #     if (len(ai) < pad):
-        #         ai.append(0)
-        # print("Coefficient" + str(ai))
+        for i in range(len(ai)):
+            if (len(ai) < pad):
+                ai.append(0)
+        return ai
 
     def affineMap(self):
-        pass
-        # Ai = GF2N(self.getPolynomial2().getInt()).mulInv()
-        # print('bef')
-        # print(Ai.coeff)
-        # print('aft')
-        # print("Affine Ai ", Z(Ai)
-        # self.poly.pad_list(Ai.coeff,8)
+        Ai = GF2N(self.getPolynomial2().getInt()).mulInv()
+        Bip = self.pad_list(Ai.coeff, 8)
+
+        map = np.array(self.affinemat)
+        Bip = np.dot(map, np.transpose(Bip))
+        Bip = np.add(np.transpose(Bip), np.transpose(self.modt))
+        Bi = np.mod(np.transpose(Bip), 2)
+
+        return GF2N(Polynomial2(Bi.tolist()).getInt(), self.n, self.ip)
 
 
 print('\nTest 1')
@@ -264,22 +268,22 @@ print('g7/g8 =')
 print('q = ', q.getPolynomial2())
 print('r = ', r.getPolynomial2())
 
-# print('\nTest 7')
-# print('======')
-# ip = Polynomial2([1, 1, 0, 0, 1])
-# print('irreducible polynomial', ip)
-# g9 = GF2N(0b101, 4, ip)
-# print('g9 = ', g9.getPolynomial2())
-# print('inverse of g9 =', g9.mulInv().getPolynomial2())
-#
-#
-# print('\nTest 8')
-# print('======')
-# ip = Polynomial2([1, 1, 0, 1, 1, 0, 0, 0, 1])
-# print('irreducible polynomial', ip)
-# g10 = GF2N(0xc2, 8, ip)
-# print('g10 = 0xc2')
-# g11 = g10.mulInv()
-# print('inverse of g10 = g11 =', hex(g11.getInt()))
-# g12 = g11.affineMap()
-# print('affine map of g11 =', hex(g12.getInt()))
+print('\nTest 7')
+print('======')
+ip = Polynomial2([1, 1, 0, 0, 1])
+print('irreducible polynomial', ip)
+g9 = GF2N(0b101, 4, ip)
+print('g9 = ', g9.getPolynomial2())
+print('inverse of g9 =', g9.mulInv().getPolynomial2())
+
+
+print('\nTest 8')
+print('======')
+ip = Polynomial2([1, 1, 0, 1, 1, 0, 0, 0, 1])
+print('irreducible polynomial', ip)
+g10 = GF2N(0xc2, 8, ip)
+print('g10 = 0xc2')
+g11 = g10.mulInv()
+print('inverse of g10 = g11 =', hex(g11.getInt()))
+g12 = g11.affineMap()
+print('affine map of g11 =', hex(g12.getInt()))
