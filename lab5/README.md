@@ -361,7 +361,7 @@ Upload a **zip file** with the following:
 
 * `gf2n.py`
 * `table1.txt`
-* `quiz.txt` (if attempted)
-* `table2.txt` (if attempted)
+* `quiz.txt` (not attempted)
+* `table2.txt` (attempted)
 
 **Deadline: 20 Oct (2359)**
