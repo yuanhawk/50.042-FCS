@@ -2,6 +2,7 @@
 # Year 2021
 import operator
 import numpy as np
+from gf import gf_invert
 
 
 class Polynomial2:
@@ -178,26 +179,26 @@ class GF2N:
 
     # at = 1 mod n
     def mulInv(self):
-        # print(self.poly, ' = 101')
-        # print(self.ip, ' = 10011')
+        # # print(self.poly, ' = 101')
+        # # print(self.ip, ' = 10011')
+        #
+        # q1, r1 = self.ip.div(self.poly)
+        #
+        # q2, r2 = self.poly.div(r1)
+        #
+        # q1q2 = Polynomial2(q1.coeff).mul(Polynomial2(q2.coeff))
+        # q_x = q1q2.add(Polynomial2([1]))
+        t1 = gf_invert(self.poly.getInt())
 
-        q1, r1 = self.ip.div(self.poly)
-
-        q2, r2 = self.poly.div(r1)
-
-        q1q2 = Polynomial2(q1.coeff).mul(Polynomial2(q2.coeff))
-        q_x = q1q2.add(Polynomial2([1]))
-
-        return GF2N(q_x.getInt(), self.n, self.ip)
+        return GF2N(t1, self.n, self.ip)
 
     def pad_list(self, ai, pad):
-        for i in range(len(ai)):
-            if (len(ai) < pad):
-                ai.append(0)
+        while len(ai) != pad:
+            ai.append(0)
         return ai
 
     def affineMap(self):
-        Ai = GF2N(self.getPolynomial2().getInt()).mulInv()
+        Ai = GF2N(self.getPolynomial2().getInt())
         Bip = self.pad_list(Ai.coeff, 8)
 
         map = np.array(self.affinemat)
@@ -281,7 +282,7 @@ print('\nTest 8')
 print('======')
 ip = Polynomial2([1, 1, 0, 1, 1, 0, 0, 0, 1])
 print('irreducible polynomial', ip)
-g10 = GF2N(0xc2, 8, ip)
+g10 = GF2N(0x00, 8, ip)
 print('g10 = 0xc2')
 g11 = g10.mulInv()
 print('inverse of g10 = g11 =', hex(g11.getInt()))

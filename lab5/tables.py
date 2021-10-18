@@ -1,5 +1,3 @@
-import math
-
 from prettytable import PrettyTable
 from gf2ntemplate import *
 
