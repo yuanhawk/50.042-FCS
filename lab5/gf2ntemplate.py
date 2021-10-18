@@ -57,7 +57,6 @@ class Polynomial2:
 
     def mul(self, p2, modp=None):
         max = self.len + p2.len - 1
-        # print(max)
         if self.len <= p2.len:
             idx = self.len
             s_arr = self.coeff
@@ -179,15 +178,6 @@ class GF2N:
 
     # at = 1 mod n
     def mulInv(self):
-        # # print(self.poly, ' = 101')
-        # # print(self.ip, ' = 10011')
-        #
-        # q1, r1 = self.ip.div(self.poly)
-        #
-        # q2, r2 = self.poly.div(r1)
-        #
-        # q1q2 = Polynomial2(q1.coeff).mul(Polynomial2(q2.coeff))
-        # q_x = q1q2.add(Polynomial2([1]))
         t1 = gf_invert(self.poly.getInt())
 
         return GF2N(t1, self.n, self.ip)

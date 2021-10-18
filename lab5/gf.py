@@ -18,7 +18,6 @@ def gf_invert(a, mod=0x1B):
 
     while a != 1:
         if j < 0:
-            print(a)
 
             a, v = v, a
             g1, g2 = g2, g1
@@ -34,7 +33,4 @@ def gf_invert(a, mod=0x1B):
 
     return g1
 
-
-# print(gf_invert(5))  # 82
-# print(gf_invert(1))  # 1
-print(gf_invert(0xc2))  # 28
+# print(gf_invert(0xc2))  # 28

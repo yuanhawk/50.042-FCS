@@ -28,3 +28,4 @@ with open('table1.txt', 'w+') as fout:
     print(t2)
 
     fout.writelines(str(t1))
+    fout.writelines(str(t2))

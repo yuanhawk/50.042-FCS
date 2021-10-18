@@ -299,18 +299,6 @@ Save your answers as `quiz.txt`.
 * Inversion in GF(2^8) is the core operation of the Byte Substituion transformation which contains the AES S-Boxes. In this exercise, you need to implement multiplicative inverse as a method in `GF2N` class using the Extended Euclidean Algorithm.
 * [https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm](https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm)
 
-**Multiplicative Inverse**
-https://crypto.stackexchange.com/questions/34028/multiplicative-inverse-in-galois-field-28
-```
-g(x) = p(x) * q_1 + r_1
-p(x) = q_2 * r_1 + 1
-r_1 = g(x) + p(x) * q_1
-
-1 = p(x) + q_2 * r_1<br>
-  = p(x) + q_2 * (g(x) + p(x) * q_1)
-  = p(x) * (1 + q_1 * q_2) + q_2 * g(x)
-
-q(x) = 1 + q_1 * q_2
 ```
 
 **Extended Euclidean Algorithm**
