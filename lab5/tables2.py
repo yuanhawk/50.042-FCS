@@ -1,3 +1,8 @@
+# 50.042 FCS Lab 5 Modular Arithmetics
+# Year 2021
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
+
 from prettytable import PrettyTable
 from gf2ntemplate import *
 
