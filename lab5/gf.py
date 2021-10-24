@@ -6,6 +6,7 @@
 def gf_degree(a):
     res = 0
     a >>= 1
+    print(a)
     while a != 0:
         a >>= 1
         res += 1
