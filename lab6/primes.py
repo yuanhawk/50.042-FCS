@@ -2,8 +2,6 @@
 # Year 2021
 
 import random as r
-import time as t
-
 
 # y = a^x mod n
 def square_multiply(a, x, n):
@@ -17,7 +15,8 @@ def square_multiply(a, x, n):
 
 def largest_pow_2(val):
     val_bin = [s for s in bin(val)[2:]]
-    largest_ind = len(val_bin) - val_bin[::-1].index('1')
+    if '1' in val_bin:
+        largest_ind = len(val_bin) - val_bin[::-1].index('1')
     return len(val_bin) - largest_ind, int(''.join(val_bin[:largest_ind]), 2)
 
 
@@ -77,14 +76,13 @@ if __name__ == "__main__":
     # print ('3^5 mod 11 = 1')
     # print (square_multiply(3, 5, 11))
 
-    # a = 4
-    # prime_num = []
-    # for i in range(0, 100):
-    #     if miller_rabin(i, a) is True:
-    #         prime_num.append(i)
-    #         t.sleep(0.5)
-    #
-    # print (prime_num)
+    a = 4
+    prime_num = []
+    for i in range(0, 100):
+        if miller_rabin(i, a) is True:
+            prime_num.append(i)
+
+    print (prime_num)
 
     # print('Is 561 a prime?')
     # print(miller_rabin(561, 2))

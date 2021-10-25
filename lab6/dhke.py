@@ -1,20 +1,27 @@
 # 50.042 FCS Lab 6 template
 # Year 2021
 
-from prime import *
+from primes import *
 import random as r
 
-
 def dhke_setup(nb):
+
+    p = gen_prime_nbits(nb)
+    print(p)
+    alpha = r.randint(2, p-2)
+    print(alpha)
+    return p, alpha
+
     #largest prime
     # p = 1208925819614629174706189
     # alpha = p - 2
 
-    num = '0b'
-    for i in range(nb):
-        num += f'{r.randint(0, 1)}'
-    p = 941
-    alpha = 627
+    # num = '0b'
+    # for i in range(nb):
+    #     num += f'{r.randint(0, 1)}'
+    #p = 941
+    #alpha = 627
+
 
     # a, b = gen_priv_key(p)
     # a_pub = get_pub_key(alpha, a, p)
@@ -22,14 +29,14 @@ def dhke_setup(nb):
     #
     # k_ab = get_shared_key(b_pub, a, p)
     # k_ba = get_shared_key(a_pub, b, p)
-
+    #
     # print (str(k_ab), str(k_ba))
 
-    pass
+
 
 
 def gen_priv_key(p):
-    return r.randrange(2, p-2), r.randrange(2, p-2)
+    return r.randrange(2, p-2)
 
 def get_pub_key(alpha, a, p):
     return square_multiply(alpha, a, p)
@@ -60,3 +67,7 @@ if __name__ == "__main__":
     print("My shared key is: ", sharedKeyA)
     print("Test other shared key is: ", sharedKeyB)
     print("Length of key is %d bits." % sharedKeyA.bit_length())
+
+    with open('./present/key', 'w') as fout:
+        print (hex(sharedKeyA))
+        fout.write(hex(sharedKeyA))
