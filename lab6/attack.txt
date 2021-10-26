@@ -1,0 +1,22 @@
+Attempting to break 16 bits
+Finished breaking 16 bits in 0.0001399517059326172 sec
+Attempting to break 32 bits
+Finished breaking 32 bits in 0.00015878677368164062 sec
+Attempting to break 64 bits
+Finished breaking 64 bits in 0.0003247261047363281 sec
+Attempting to break 128 bits
+Finished breaking 128 bits in 0.009624004364013672 sec
+Attempting to break 256 bits
+Finished breaking 256 bits in 0.015675783157348633 sec
+Attempting to break 512 bits
+Finished breaking 512 bits in 0.049189090728759766 sec
+Attempting to break 1024 bits
+Finished breaking 1024 bits in 5.569383859634399 sec
+Attempting to break 2048 bits
+Finished breaking 2048 bits in 13.326275825500488 sec
+Attempting to break 4096 bits
+Finished breaking 4096 bits in 284.8255639076233 sec
+Attempting to break 8192 bits
+Finished breaking 8192 bits in 17887.886436223984 sec
+Attempting to break 16384 bits
+Finished breaking 16384 bits in 39157.95236206055 sec

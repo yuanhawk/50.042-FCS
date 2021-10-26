@@ -1,0 +1,23 @@
+Task 2
+
+Q1 How could we perform the exchange of keys in the real world? Do we need a secure channel? Why or why not?
+We do need a secure channel (RSA) when communicating as the DKHE is susceptible to Man-In-The-Middle attack. In the case that
+the Man (Charlie) intercepts Alice's and Bob's message, Charlie can replace Alice's message (alpha^a mod p) with (alpha^ac mod p),
+and sends it to B who will then trust the message to be from Alice. Bob will then send his (alpha^b mod p) to Charlie and
+Charlie will then replace Bob's message with (alpha^bc mod p). Charlie is able to read every message between Alice and Bob.
+
+Q2 What is an advantage and a disadvantage of DHKE?
+The advantage is that both parties can create a shared key and prevent the reuse of keys. Both parties can also derive a
+protocol to create a shared key which ensures randomness of the shared key.
+The integrity of the message can be compromised from Man-In-The-Middle-Attack as there is no way to ascertain that the
+message comes from the direct sender (Alice)
+
+Q3
+Try to attack DHKE with Baby-Step Giant-Steps method. Start with a key size of 16 bits. (a key with 16 bits has a small
+maximum value of 2^16, or 65536) Increase the number of bits (of the key) to break slowly, to increase the difficulty of
+the attack. Note where the attack fails or is too hard to execute.
+
+To avoid attack using Baby-Step Giant-Steps method, how many bits would you set the key be in DHKE protocol? How did you
+decide on this number? Answer as Q3 in ans.txt
+The attack is hard to execute once it passes 8192 (2^13) bits. To avoid attack, I would set the key to be at least 2^30 bits, this
+is to ensure that the attacker will have to spend a lengthy amount of time (more than a month) to break the algorithm
