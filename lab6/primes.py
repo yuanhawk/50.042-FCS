@@ -1,5 +1,7 @@
 # 50.042 FCS Lab 6 template
 # Year 2021
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
 
 import random as r
 
