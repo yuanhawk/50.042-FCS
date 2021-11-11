@@ -34,6 +34,16 @@ from Crypto.PublicKey import RSA
 
 The documentation for PyCrypto can be found [here](https://www.dlitz.net/software/pycrypto/api/current/).
 
+Search and replace the following, ctrl/cmd + click file and edit directly:
+
+```angular2html
+  File "/opt/homebrew/anaconda3/lib/python3.8/site-packages/pycrypto-2.6.1-py3.8-macosx-10.9-x86_64.egg/Crypto/Random/_UserFriendlyRNG.py", line 77, in collect
+    t = time.clock()
+AttributeError: module 'time' has no attribute 'clock'
+
+t = time.clock() => t = time.time()
+```
+
 ## Part II: RSA Without Padding
 
 Use your previous Python script implementation of square and multiply to do large integer exponentiation.
