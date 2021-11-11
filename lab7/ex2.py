@@ -12,21 +12,28 @@ def hash_msg(fname, mode='r'):
     h.update(text.read().encode())
     return int(h.hexdigest(), 16)
 
+def encrypt(i):
+    pub = get_key('mykey.pem.pub')
+    # public key
+    # print(pub.n)
+    # print(pub.e)
+    return square_multiply(i, pub.e, pub.n)
+
+def decrypt(e):
+    priv = get_key('mykey.pem.priv')
+    # private key
+    # print(priv.n)
+    # print(priv.d)
+    return square_multiply(e, priv.d, priv.n)
+
+def check_text_is_same(i):
+    e = encrypt(i)
+    d = decrypt(e)
+    return i == d
 
 if __name__ == "__main__":
-    rsakey_pub = get_key('mykey.pem.pub')
-    rsakey_priv = get_key('mykey.pem.priv')
-
-    # print(key)
-    # public key
-    # print(rsakey_pub.n)
-    # print(rsakey_pub.e)
-    # private key
-    # print(rsakey_priv.n)
-    # print(rsakey_priv.d)
-    i = hash_msg('mydata.txt')
-
-    e = square_multiply(i, rsakey_pub.e, rsakey_pub.n)
-    d = square_multiply(e, rsakey_priv.d, rsakey_priv.n)
-    assert (i == d)
+    if check_text_is_same(hash_msg('mydata.txt')):
+        print('Hash message and decrypted hash message is the same!')
+    else:
+        print('Hash message and decrypted hash message is not the same!')
 
