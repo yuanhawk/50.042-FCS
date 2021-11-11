@@ -1,3 +1,8 @@
+# 50.042 FCS Lab 7
+# Year 2021
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
+
 from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA256
 from primes import square_multiply

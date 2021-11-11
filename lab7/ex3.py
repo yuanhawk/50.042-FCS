@@ -1,10 +1,15 @@
+# 50.042 FCS Lab 7
+# Year 2021
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
+
 from ex2 import *
 from primes import square_multiply
 
 i = 100
 
 # Encrypt an integer (e.g. 100) using the public key from previous part, e.g. y
-# Choose a multiplier s equal to 2 and calculate: ys ≡ se mod n
+# Choose a multiplier s equal to 2 and calculate: ys ≡ s^e mod n
 # Multiply the two numbers: m ≡ y × ys mod n
 # Decrypt using the private key from the previous part.
 
@@ -13,7 +18,7 @@ if __name__ == "__main__":
     print('Encrypting: ', i)
     y = encrypt(i)
     print('Result:\n', y)
-    pub = get_key('mykey.pem.pub') #part 2 public key
+    pub = get_key('mykey.pem.pub') # part 2 public key
     ys = square_multiply(2, pub.e, pub.n)
     m = (y * ys) % pub.n
     print('Modified to:\n', m)
