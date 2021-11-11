@@ -1,3 +1,8 @@
+# 50.042 FCS Lab 7
+# Year 2021
+# * Name of Student(s): Tan Li Yuan, Teo Yew Xuan
+# * Student ID(s): 1004326, 1004452
+
 # Pycrypto is running a deprecated version of time module. Edit time.clock() to time.time() to get package running
 from ex2 import get_key, square_multiply
 from Crypto.Hash import SHA256
