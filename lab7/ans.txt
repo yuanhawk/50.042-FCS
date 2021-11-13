@@ -1,2 +1,4 @@
 ex5.py attack does not work!
 
+RSA requires a trusted 3rd party (Certified Authority) to verify the reliability of the public key through certificates.
+In this case, if one of the certificates are compromised, Man-in-the-Middle attack could be executed.
